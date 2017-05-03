@@ -1,0 +1,126 @@
+// Theme Header
+#wrapper-navbar {
+    nav.navbar {
+        $toggle_bar_color: #FFF;
+        $toggle_size: 33px;
+        $toggle_bar_height: $toggle_size / 10;
+        $toggle_offset: $toggle_bar_height * 2.5;
+        @mixin bar {
+            display: block;
+            width: $toggle_size;
+            height: $toggle_bar_height;
+            background: $toggle_bar_color;
+            border-radius: 2px;
+        }
+        .navbar-toggler {
+            border: 1px solid #FFF;
+            //position: relative;
+            //display: block;
+            //margin: auto;
+            //height: ($toggle_offset*2) + $toggle_bar_height;
+            //width: $toggle_size;
+            width: 43px;
+            height: 43px;
+            cursor: pointer;
+            .navbar-toggler-icon {
+                @include bar;
+
+                position: absolute;
+                top: 50%;
+                left: 4px;
+                margin-top: -($toggle_bar_height/2);
+                transition: all .2s linear;
+
+                &:before,
+                &:after {
+                    @include bar;
+
+                    content: "";
+                    position: absolute;
+                    transition: .2s linear;
+                }
+
+                &:before { top: -$toggle_offset; }
+                &:after { bottom: -$toggle_offset; }
+            }
+            &.active {
+                .navbar-toggler-icon {
+                    background-color: transparent;
+                    transition: all .2s linear;
+
+                    &:before {
+                        top: 0;
+                        transform: rotate(45deg);
+                    }
+
+                    &:after {
+                        bottom: 0;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+        .container-fluid {
+            width: 100%;
+        }
+        @media (min-width: 1360px) {
+
+        }
+        overflow: visible;
+        background-color: $vermillion;
+        .navbar-nav {
+            > li > a {
+                color: #FFF;
+                &:hover,
+                &:focus {
+                    //color: $navbar-default-link-hover-color;
+                    //background-color: $navbar-default-link-hover-bg;
+                    color: #FFF;
+                    background-color: $vermillion;
+                }
+            }
+            .dropdown-menu {
+                .menu-item a {
+                    &:hover {
+                        color: #FFF;
+                        background-color: $vermillion;
+                    }
+                }
+            }
+        }
+        .navbar-brand {
+            display: block;
+            //position: relative;
+            //left: -31px;
+            max-width: 43px;
+            border-radius: 50%;
+            background-color: #FFF;
+            border: 1px solid #FFF;
+            @include media-breakpoint-up(lg) {
+                background-color: transparent;
+                border: 0;
+                max-width: none;
+                position: absolute;
+                z-index: 2;
+                left: -16px;
+                top: 0;
+                border-radius: 0;
+            }
+        }
+    }
+    .football-cheer-header-container {
+        border-bottom: 10px solid $midnight_blue;
+        text-align: center;
+        @include media-breakpoint-up(lg) {
+            padding-left: 225px;
+            padding-right: 225px;
+        }
+    }
+}
+body.admin-bar {
+    #wrapper-navbar nav.navbar .navbar-brand {
+        @include media-breakpoint-up(lg) {
+            left: 0;
+        }
+    }
+}

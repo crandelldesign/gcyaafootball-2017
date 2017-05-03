@@ -1,0 +1,40 @@
+// Theme Global
+body {
+    background-color: $midnight_blue;
+}
+#page {
+    background-color: #FFF;
+    @include page-width();
+    @include shadow-5-darker();
+}
+.content {
+    border-top: 5px solid $vermillion;
+    background-color: $ship_gray;
+    color: #FFF;
+    padding: 30px;
+}
+h1, .h1 {
+    color: $azure;
+}
+h2, .h2 {
+    color: $mona_lisa;
+}
+
+.btn-vermillion {
+    background-color: $vermillion;
+    color: #FFF;
+    border: 1px solid #FFF;
+    &:hover, &:focus {
+        background-color: $coral;
+        color: #FFF;
+    }
+}
+.btn-midnight-blue {
+    background-color: $midnight_blue;
+    color: #FFF;
+    border: 1px solid #FFF;
+    &:hover, &:focus {
+        background-color: $azure;
+        color: #FFF;
+    }
+}
