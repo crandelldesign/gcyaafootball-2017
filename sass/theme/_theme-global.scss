@@ -12,6 +12,9 @@ body {
     background-color: $ship_gray;
     color: #FFF;
     padding: 30px;
+    .entry-content {
+        min-height: 300px;
+    }
 }
 h1, .h1 {
     color: $azure;
@@ -36,5 +39,17 @@ h2, .h2 {
     &:hover, &:focus {
         background-color: $azure;
         color: #FFF;
+    }
+}
+.btn-img {
+    padding: 0;
+    white-space: normal;
+    line-height: 2;
+    border: 0;
+    text-align: left;
+    text-indent: 10px;
+    img {
+        @extend .img-fluid;
+        margin-left: -10px;
     }
 }

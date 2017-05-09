@@ -80,8 +80,11 @@ $container = get_theme_mod( 'understrap_container_type' );
 		</nav><!-- .site-navigation -->
 		<div class="football-cheer-header-container">
 			<div class="container-fluid">
-			  <img src="<?php echo get_template_directory_uri().'/img/football-cheer-header.png'?>" alt="<?php bloginfo( 'name' ); ?>" class="img-fluid mx-auto">
+				<a rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"><img src="<?php echo get_template_directory_uri().'/img/football-cheer-header.png'?>" alt="<?php bloginfo( 'name' ); ?>" class="img-fluid mx-auto"></a>
 			</div>
 		</div>
 
 	</div><!-- .wrapper-navbar end -->
+	<div id="header-slideshow">
+		<?php masterslider(1); ?>
+	</div>

@@ -1,0 +1,27 @@
+// Theme Slideshow
+#header-slideshow .master-slider {
+    .ms-nav-next {
+        display: none;
+        @include media-breakpoint-up(sm) {
+            display: block;
+        }
+    }
+    .ms-nav-prev {
+        display: none;
+        @include media-breakpoint-up(sm) {
+            display: block;
+        }
+    }
+    .ms-bullets {
+        right: 40px;
+        .ms-bullets-count {
+            right: auto;
+        }
+        .ms-bullet {
+            background-color: #FFF;
+            &.ms-bullet-selected {
+                background-color: $vermillion;
+            }
+        }
+    }
+}
