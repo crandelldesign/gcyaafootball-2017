@@ -42,6 +42,7 @@ var merge = require('gulp-merge');
 var sourcemaps = require('gulp-sourcemaps');
 var browserSync = require('browser-sync').create();
 var del = require('del');
+var cleanCSS = require('gulp-clean-css');
 
 
 // Run:
@@ -60,7 +61,7 @@ gulp.task('scss-for-prod', function() {
 
 
     var pipe2 = source.pipe(clone())
-        .pipe(cssnano())
+        .pipe(minify-css())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('./css'));
 
@@ -88,7 +89,7 @@ gulp.task('watch-scss', ['browser-sync'], function () {
 // Run:
 // gulp sass
 // Compiles SCSS files in CSS
-gulp.task('sass', function () {
+gulp.task('sass', ['minify-css'], function () {
     var stream = gulp.src('./sass/*.scss')
         .pipe(plumber())
         .pipe(sass())
@@ -103,7 +104,7 @@ gulp.task('sass', function () {
 // Starts watcher. Watcher runs gulp sass task on changes
 gulp.task('watch', function () {
     gulp.watch('./sass/**/*.scss', ['sass']);
-    gulp.watch('./css/theme.css', ['cssnano']);
+    gulp.watch('./css/theme.css', ['minify-css']);
     gulp.watch([basePaths.dev + 'js/**/*.js','js/**/*.js','!js/theme.js','!js/theme.min.js'], ['scripts']);
 
     //Inside the watch task.
@@ -133,6 +134,14 @@ gulp.task('cssnano', function(){
     .pipe(gulp.dest('./css/'))
 });
 
+gulp.task('minify-css', function() {
+  return gulp.src('./css/theme.css')
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(plumber())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('./css/'));
+});
+
 gulp.task('cleancss', function() {
   return gulp.src('./css/*.min.css', { read: false }) // much faster
     .pipe(ignore('theme.css'))
@@ -151,7 +160,7 @@ gulp.task('browser-sync', function() {
 // Run:
 // gulp watch-bs
 // Starts watcher with browser-sync. Browser-sync reloads page automatically on your browser
-gulp.task('watch-bs', ['browser-sync', 'watch', 'cssnano', 'scripts'], function () { });
+gulp.task('watch-bs', ['browser-sync', 'watch', 'minify-css', 'scripts'], function () { });
 
 
 // Run:
@@ -160,12 +169,9 @@ gulp.task('watch-bs', ['browser-sync', 'watch', 'cssnano', 'scripts'], function 
 gulp.task('scripts', function() {
     var scripts = [
         basePaths.dev + 'js/tether.js', // Must be loaded before BS4
-
         // Start - All BS4 stuff
         basePaths.dev + 'js/bootstrap4/bootstrap.js',
-
         // End - All BS4 stuff
-
         basePaths.dev + 'js/skip-link-focus-fix.js',
         basePaths.js + 'default.js'
     ];
@@ -195,7 +201,6 @@ gulp.task('copy-assets', ['clean-source'], function() {
 // Copy all Bootstrap JS files
     var stream = gulp.src(basePaths.node + 'bootstrap/dist/js/**/*.js')
        .pipe(gulp.dest(basePaths.dev + '/js/bootstrap4'));
-
 
 // Copy all Bootstrap SCSS files
     gulp.src(basePaths.node + 'bootstrap/scss/**/*.scss')
@@ -236,7 +241,7 @@ gulp.task('copy-assets', ['clean-source'], function() {
 
 // Run
 // gulp dist
-// Copies the files to the /dist folder for distributon
+// Copies the files to the /dist folder for distributon as simple theme
 gulp.task('dist', ['clean-dist'], function() {
     gulp.src(['**/*','!bower_components','!bower_components/**','!node_modules','!node_modules/**','!src','!src/**','!dist','!dist/**','!dist-product','!dist-product/**','!sass','!sass/**','!readme.txt','!readme.md','!package.json','!gulpfile.js','!CHANGELOG.md','!.travis.yml','!jshintignore', '!codesniffer.ruleset.xml', '*'])
     .pipe(gulp.dest('dist/'))
@@ -249,9 +254,9 @@ gulp.task('clean-dist', function () {
 
 // Run
 // gulp dist-product
-// Copies the files to the /dist folder for distributon
+// Copies the files to the /dist-prod folder for distributon as theme with all assets
 gulp.task('dist-product', ['clean-dist-product'], function() {
-    gulp.src(['**/*','!bower_components','!bower_components/**','!node_modules','!node_modules/**','!src','!src/**','!dist','!dist/**','!dist-product','!dist-product/**', '*'])
+    gulp.src(['**/*','!bower_components','!bower_components/**','!node_modules','!node_modules/**','!dist','!dist/**','!dist-product','!dist-product/**', '*'])
     .pipe(gulp.dest('dist-product/'))
 });
 
